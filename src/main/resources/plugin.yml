@@ -1,0 +1,3 @@
+name: LunerClientBlocker
+version: ${project.version}
+main: net.azisaba.lunerclientblocker.LunerClientBlocker
