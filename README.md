@@ -1,2 +1,4 @@
 # LunerClientBlocker
-LunerClientを迫害するプラグイン
+LunerClientをさようならするプラグイン
+
+LunerClientAPIが必須
