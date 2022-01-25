@@ -1,4 +1,6 @@
-# LunerClientBlocker
-LunerClientをさようならするプラグイン
+# Lun"e"rClientBlocker
+Lun"e"rClientをさようならするプラグイン
 
-LunerClientAPIが必須
+スペルミスなんてなかった
+
+LunarClientAPIが必須
