@@ -3,6 +3,10 @@ package net.azisaba.lunerclientblocker;
 import com.lunarclient.bukkitapi.LunarClientAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -12,24 +16,34 @@ public final class LunerClientBlocker extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         Bukkit.getPluginManager().registerEvents(this,this);
+        saveDefaultConfig();
     }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if(command.getName().equals("config_reload")) {
+            reloadConfig();
+            getConfig();
+            config = getConfig();
+        }
+        return true;
     }
+
+    public FileConfiguration config = getConfig();
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
+        Player p = e.getPlayer();
+        String kickMessage = config.getString("blockMessage");
 
-        Bukkit.getScheduler().runTaskLater(this, new Runnable() {
-            @Override
-            public void run() {
-                if(com.lunarclient.bukkitapi.LunarClientAPI.getInstance().isRunningLunarClient(e.getPlayer())){
-                    e.getPlayer().kickPlayer(ChatColor.RED + "ルナークライアントはこのサーバーでは許可されていません！");
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            if(LunarClientAPI.getInstance().isRunningLunarClient(p)){
+                if(p.hasPermission("LunarClient.Permit")) {
+                    Bukkit.getLogger().warning(p.getName() + "はLunarClientを使用していましたが、権限を持っていたためKickをキャンセルしました。");
+                    return;
                 }
+                e.getPlayer().kickPlayer(ChatColor.RED + kickMessage);
             }
         },40L);
 
