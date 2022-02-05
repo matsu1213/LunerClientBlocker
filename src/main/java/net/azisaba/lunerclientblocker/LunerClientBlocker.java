@@ -3,6 +3,8 @@ package net.azisaba.lunerclientblocker;
 import com.lunarclient.bukkitapi.LunarClientAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +18,16 @@ public final class LunerClientBlocker extends JavaPlugin implements Listener {
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(this,this);
         saveDefaultConfig();
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if(command.getName().equals("config_reload")) {
+            reloadConfig();
+            getConfig();
+            config = getConfig();
+        }
+        return true;
     }
 
     public FileConfiguration config = getConfig();

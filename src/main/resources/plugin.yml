@@ -6,3 +6,11 @@ permissions:
   LunarClient.Permit:
     description: LunarClientを許可します。
     default: op
+  LunarClient.ConfigReload.Permit:
+    description: configのリロードの許可します。
+    default: op
+
+commands:
+  config_reload:
+    description: Configをリロード
+    permission: LunarClient.ConfigReload.Permit
