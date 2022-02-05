@@ -24,12 +24,9 @@ public final class LunerClientBlocker extends JavaPlugin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
 
-        Bukkit.getScheduler().runTaskLater(this, new Runnable() {
-            @Override
-            public void run() {
-                if(com.lunarclient.bukkitapi.LunarClientAPI.getInstance().isRunningLunarClient(e.getPlayer())){
-                    e.getPlayer().kickPlayer(ChatColor.RED + "ルナークライアントはこのサーバーでは許可されていません！");
-                }
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            if(LunarClientAPI.getInstance().isRunningLunarClient(e.getPlayer())){
+                e.getPlayer().kickPlayer(ChatColor.RED + "ルナークライアントはこのサーバーでは許可されていません！");
             }
         },40L);
 
