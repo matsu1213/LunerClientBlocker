@@ -1,3 +1,8 @@
 name: LunerClientBlocker
 version: ${project.version}
 main: net.azisaba.lunerclientblocker.LunerClientBlocker
+
+permissions:
+  LunarClient.Permit:
+    description: LunarClientを許可します。
+    default: op

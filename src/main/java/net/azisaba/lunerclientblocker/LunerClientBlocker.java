@@ -4,6 +4,7 @@ import com.lunarclient.bukkitapi.LunarClientAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -19,17 +20,17 @@ public final class LunerClientBlocker extends JavaPlugin implements Listener {
 
     public FileConfiguration config = getConfig();
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
-
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
+        Player p = e.getPlayer();
         String kickMessage = config.getString("blockMessage");
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
-            if(LunarClientAPI.getInstance().isRunningLunarClient(e.getPlayer())){
+            if(LunarClientAPI.getInstance().isRunningLunarClient(p)){
+                if(p.hasPermission("LunarClient.Permit")) {
+                    Bukkit.getLogger().warning(p.getName() + "はLunarClientを使用していましたが、権限を持っていたためKickをキャンセルしました。");
+                    return;
+                }
                 e.getPlayer().kickPlayer(ChatColor.RED + kickMessage);
             }
         },40L);
